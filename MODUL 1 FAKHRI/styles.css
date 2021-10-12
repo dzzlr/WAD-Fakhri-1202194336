@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    /* background-color: aquamarine; */
+}
+
+.navbar-brand {
+    padding-left: 10rem;
+}
+
+#home {
+    background-color: rgb(236, 236, 236);
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+}
+
+#home h1 {
+    padding-top: 2rem;
+    font-weight: bold;
+}
+
+#about {
+    padding-top: 5rem;
+    padding-bottom: 20rem;
+
+}
+
+.title-text {
+    text-align: center;
+    font-weight: bold;
+}
+
+.container-about-content {
+    width: 60%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.kolom-kiri {
+    padding-right: 2rem;
+    flex: 1;
+}
+
+.kolom-kanan {
+    flex: 1;
+}
+
+.about-text {
+    text-align: left;
+}
+
+#layanan {
+    padding-top: 5rem;
+    padding-bottom: 15rem;
+    background-color: rgb(236, 236, 236);
+}
+
+#layanan h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.container-layanan {
+    padding-left: 10rem;
+    padding-right: 10rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+#registrasi {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+#registrasi h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-registrasi {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-text {
+    text-align: center;
+}
