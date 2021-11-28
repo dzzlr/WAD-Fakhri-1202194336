@@ -48,6 +48,7 @@ function register($data) {
     $password = password_hash($password, PASSWORD_DEFAULT);
     
     mysqli_query($conn, "INSERT INTO users VALUES ('', '$nama', '$email', '$password', '$nohp')");
+    $_SESSION['registration_success'] = 'Berhasil registrasi';
 
     return mysqli_affected_rows($conn);
 }
@@ -60,6 +61,7 @@ function updateData($data) {
     $nohp = strtolower(stripslashes($data["nohp"]));
     $password = mysqli_real_escape_string($conn, $data["password"]);
     $password2 = mysqli_real_escape_string($conn, $data["password2"]);
+    $warnabg = $data['warnabg'];
 
     if ($password !== $password2) {
         echo "<script>
@@ -72,6 +74,9 @@ function updateData($data) {
 
     $query = "UPDATE users SET nama = '$nama', no_hp = '$nohp', password = '$password' WHERE id = '$id'";
     mysqli_query($conn, $query);
+
+    setcookie('warnabg', $warnabg, strtotime('+3 days'), '/');
+    $_SESSION['update_success'] = 'Berhasil update profile';
 
     return mysqli_affected_rows($conn);
 }
@@ -93,6 +98,7 @@ function booking($data) {
 
     $query = "INSERT INTO bookings VALUES ('', '$user_id', '$nama_tempat', '$lokasi', '$harga', '$tanggal')";
     mysqli_query($conn, $query);
+    $_SESSION['booking_success'] ="Berhasil memesan tiket";
 
     return mysqli_affected_rows($conn);
 }
@@ -102,6 +108,7 @@ function deleteData($id) {
 
     $query = "DELETE FROM bookings WHERE id = $id";
     mysqli_query($conn, $query);
+    $_SESSION['booking_delete'] = "Tiket berhasil dihapus";
 
     return mysqli_affected_rows($conn);
 }

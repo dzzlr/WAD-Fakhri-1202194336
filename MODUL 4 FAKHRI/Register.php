@@ -31,11 +31,22 @@ if (isset($_POST["register"])) {
         integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous">
     </script>
     <title>Register</title>
+    <style type="text/css">
+        #settingbackground {                
+            background-color: <?php 
+                if (!empty($_COOKIE['warnabg'])){
+                    echo "#".$_COOKIE['warnabg'];
+                } else {
+                    echo "#89B5F2";
+                }
+            ?>;
+        }
+    </style>
 </head>
 
 <body style="background-color: #FEF8E6;">
     <!-- Navbar -->
-    <nav class="px-5 navbar navbar-light fixed-top" style="background-color: #89B5F2;">
+    <nav class="px-5 navbar navbar-light fixed-top" id="settingbackground">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="Index.php">EAD Travel</a>
             <div class="my-auto d-flex">
@@ -87,7 +98,7 @@ if (isset($_POST["register"])) {
     </div>
     <!-- Akhir Konten -->
     <!-- Footer -->
-    <footer class="footer pt-2 py-2 text-center" style="background-color: #89B5F2;">
+    <footer class="footer pt-2 py-2 text-center" id="settingbackground">
         <p>&copy;2021 Copyright <a href="" data-bs-toggle="modal"
             data-bs-target="#author">Fakhri_1202194336</a></p>
     </footer>

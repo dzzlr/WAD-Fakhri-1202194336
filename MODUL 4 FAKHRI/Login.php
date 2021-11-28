@@ -10,7 +10,7 @@ if (isset($_COOKIE["id"]) && isset($_COOKIE["key"])) {
     $row = mysqli_fetch_assoc($result);
 
     if ($key === hash("sha256", $row["email"])) {
-        $_SESSION["login"] = $row["email"];
+        $_SESSION["login"] = true;
     }
 }
 
@@ -29,18 +29,26 @@ if (isset($_POST["login"])) {
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
-            $_SESSION["login"] = $email;
+            $_SESSION["login"] = true;
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['nama'] = $row['nama'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['no_hp'] = $row['no_hp'];
             
             if (isset($_POST["remember"])) {
-                setcookie("id", $row['id'], time()+60);
+                setcookie("id", $row['id'], time()+60, '/', 'localhost', '1');
                 setcookie("key", hash('sha256', $row['email']), time()+60);
             }
+
+            $_SESSION['message_login_success'] = "Berhasil Login";
 
             header("Location: Index.php");
             exit;
         }
     }
-    $error = true;
+    $_SESSION['message_login_failed'] = 'Gagal Login';
+    header("Location: Login.php");
+    exit();
 }
 ?>
 
@@ -57,12 +65,23 @@ if (isset($_POST["login"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous">
     </script>
+    <style type="text/css">
+        #settingbackground {                
+            background-color: <?php 
+                if (!empty($_COOKIE['warnabg'])){
+                    echo "#".$_COOKIE['warnabg'];
+                } else {
+                    echo "#89B5F2";
+                }
+            ?>;
+        }
+    </style>
     <title>Login</title>
 </head>
 
 <body style="background-color: #FEF8E6;">
     <!-- Navbar -->
-    <nav class="px-5 navbar navbar-light fixed-top" style="background-color: #89B5F2;">
+    <nav class="px-5 navbar navbar-light fixed-top" id="settingbackground">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="Index.php">EAD Travel</a>
             <div class="my-auto d-flex">
@@ -71,13 +90,19 @@ if (isset($_POST["login"])) {
             </div>
         </div>
     </nav>
-    <?php if (isset($error)):?>
-        <div class="mt-5 mb-1 alert alert-danger alert-dismissible fade show" role="alert">
-            Gagal Login
+    <!-- Akhir Navbar -->
+    <?php if(isset($_SESSION['registration_success'])):?>
+        <div class="mt-5 alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['registration_success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php endif;?>
-    <!-- Akhir Navbar -->
+    <?php unset($_SESSION['registration_success']); endif; ?>
+    <?php if (isset($_SESSION['message_login_failed'])):?>
+        <div class="mt-5 mb-1 alert alert-danger alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['message_login_failed']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['message_login_failed']); endif;?>
     <!-- Konten -->
     <div class="d-flex justify-content-center" style="height:100%;">
         <div class="col-4 py-4 px-5 shadow bg-white rounded" style="margin-top: 5rem;">
@@ -113,7 +138,7 @@ if (isset($_POST["login"])) {
     </div>
     <!-- Akhir Konten -->
     <!-- Footer -->
-    <footer class="footer pt-2 py-2 text-center fixed-bottom" style="background-color: #89B5F2;">
+    <footer class="footer pt-2 py-2 text-center fixed-bottom" id="settingbackground">
         <p>&copy;2021 Copyright <a href="" data-bs-toggle="modal"
             data-bs-target="#author">Fakhri_1202194336</a></p>
     </footer>

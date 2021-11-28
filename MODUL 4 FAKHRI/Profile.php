@@ -9,25 +9,11 @@ if (!isset($_SESSION["login"])) {
 
 if (isset($_POST["savechange"])) {
     if (updateData($_POST) > 0) {
-        echo "
-                <script>
-                    alert('Data berhasil diupdate!');
-                </script>
-            ";
+        echo " ";
     } else {
-        echo "
-                <script>
-                    alert('Data gagal diupdate!');
-                </script>
-            ";
+        echo " ";
     }
 }
-
-$id = $_GET["id"];
-$row = query("SELECT * FROM users WHERE id = $id")[0];
-
-// $nama = $_SESSION["nama"];
-// $row = query("SELECT * FROM users WHERE nama = '$nama'")[0];
 
 ?>
 
@@ -44,12 +30,23 @@ $row = query("SELECT * FROM users WHERE id = $id")[0];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous">
     </script>
+    <style type="text/css">
+        #settingbackground {                
+            background-color: <?php 
+                if (!empty($_COOKIE['warnabg'])){
+                    echo "#".$_COOKIE['warnabg'];
+                } else {
+                    echo "#89B5F2";
+                }
+            ?>;
+        }
+    </style>
     <title>Profile</title>
 </head>
 
 <body style="background-color: #FEF8E6;">
     <!-- Navbar -->
-    <nav class="px-5 navbar navbar-light fixed-top" style="background-color: #89B5F2;">
+    <nav class="px-5 navbar navbar-light fixed-top" id="settingbackground">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="Index.php">EAD Travel</a>
             <div class="my-auto d-flex">
@@ -58,10 +55,10 @@ $row = query("SELECT * FROM users WHERE id = $id")[0];
                 </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-dark" role="button" id="navbarDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false"><?= $row["nama"]?>
+                        data-bs-toggle="dropdown" aria-expanded="false"><?= $_SESSION["nama"]?>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a type="submit" class="dropdown-item" href="Profile.php?id=<?= $row["id"] ?>">Profile</a></li>
+                        <li><a type="submit" class="dropdown-item" href="Profile.php?id=<?= $_SESSION["id"] ?>">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="Logout.php">Logout</a></li>
                     </ul>
@@ -70,27 +67,33 @@ $row = query("SELECT * FROM users WHERE id = $id")[0];
         </div>
     </nav>
     <!-- Akhir Navbar -->
+    <?php if(isset($_SESSION['update_success'])):?>
+        <div class="mt-5 alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['update_success']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['update_success']); endif;?>
     <!-- Konten -->
     <div class="mx-auto mb-5 py-4 px-5 shadow bg-white rounded" style="margin-top: 5rem; width:75%;">
         <h4 class="text-center mb-3">Profile</h4>
         <form action="" method="post">
-            <input type="hidden" name="id" value="<?= $row['id']?>">
+            <input type="hidden" name="id" value="<?= $_SESSION['id']?>">
             <div class="mb-3 row">
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="email" name="email" value="<?= $row["email"] ?>">
+                    <input type="text" readonly class="form-control-plaintext" id="email" name="email" value="<?= $_SESSION["email"] ?>">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nama" name="nama" value="<?= $row["nama"] ?>">
+                    <input type="text" class="form-control" id="nama" name="nama" value="<?= $_SESSION["nama"] ?>">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="nohp" class="col-sm-2 col-form-label">Nomor Handphone</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nohp" name="nohp" value="<?= $row["no_hp"] ?>">
+                    <input type="text" class="form-control" id="nohp" name="nohp" value="<?= $_SESSION["no_hp"] ?>">
                 </div>
             </div>
             <hr>
@@ -107,20 +110,25 @@ $row = query("SELECT * FROM users WHERE id = $id")[0];
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="warnanavbar" class="col-sm-2 col-form-label">Warna Navbar</label>
+                <label for="warnabg" class="col-sm-2 col-form-label">Warna Navbar</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="warnanavbar" name="warnanavbar" value="">
+                    <select class="form-select" aria-label="Default select example" name="warnabg">
+                        <option value="89B5F2">Blue Ocean</option>
+                        <option value="D443E2">Lavender</option>
+                    </select>
+                    <!-- <input type="text" class="form-control" id="warnanavbar" name="warnanavbar" value=""> -->
                 </div>
             </div>
             <div class="d-grid gap-2 col-2 d-md-block mx-auto">
-                <button class="btn btn-primary" type="submit" name="savechange">Simpan</button>
-                <button class="btn btn-warning" type="button">Cancel</button>
+                <button class="btn btn-primary" type="submit" name="savechange"
+                    onClick="document.location.reload(true)">Simpan</button>
+                <a class="btn btn-warning" href="Index.php">Cancel</a>
             </div>
         </form>
     </div>
     <!-- Akhir Konten -->
     <!-- Footer -->
-    <footer class="footer pt-2 py-2 text-center fixed-bottom" style="background-color: #89B5F2;">
+    <footer class="footer pt-2 py-2 text-center fixed-bottom" id="settingbackground">
         <p>&copy;2021 Copyright <a href="" data-bs-toggle="modal"
             data-bs-target="#author">Fakhri_1202194336</a></p>
     </footer>

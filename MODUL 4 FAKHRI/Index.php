@@ -17,13 +17,7 @@ $wisata = array(
 
 if (isset($_POST["booking"])) {
     if (booking($_POST) > 0) {
-        echo "
-                <script>
-                    alert('Data berhasil ditambahkan!');
-                    document.location.href = 'Bookings.php';
-                </script>
-            ";
-        // header("Location: Bookings.php");
+        echo "";
     } else {
         echo mysqli_error($conn);
     }
@@ -45,17 +39,28 @@ if (isset($_POST["booking"])) {
         integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous">
     </script>
     <title>Home</title>
+    <style type="text/css">
+        #settingbackground {                
+            background-color: <?php 
+                if (!empty($_COOKIE['warnabg'])){
+                    echo "#".$_COOKIE['warnabg'];
+                } else {
+                    echo "#89B5F2";
+                }
+            ?>;
+        }
+    </style>
 </head>
 
 <body style="background-color: #FEF8E6;">
     <!-- Navbar -->
-    <nav class="px-5 navbar navbar-light fixed-top" style="background-color: #89B5F2;">
+    <nav class="px-5 navbar navbar-light fixed-top" id="settingbackground">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="#">EAD Travel</a>
             <div class="my-auto d-flex">
                 <?php if (isset($_SESSION["login"])):?>
                     <?php
-                        $email = $_SESSION["login"];
+                        $email = $_SESSION["email"];
                         $row = query("SELECT * FROM users WHERE email = '$email'")[0];
                     ?>
                     <a href="Bookings.php">
@@ -79,6 +84,18 @@ if (isset($_POST["booking"])) {
         </div>
     </nav>
     <!-- Akhir Navbar -->
+    <?php if (isset($_SESSION['booking_success'])):?>
+        <div class="mt-5 alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['booking_success']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['booking_success']); endif;?>
+    <?php if (isset($_SESSION['message_login_success'])):?>
+        <div class="mt-5 mb-1 alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['message_login_success']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['message_login_success']); endif;?>
     <!-- Konten -->
     <div class="d-flex flex-column mb-5">
         <div class="mb-3 mx-auto col-9 p-4 rounded text-center" style="background-color: #92C3A3; margin-top: 5rem;">
@@ -128,7 +145,7 @@ if (isset($_POST["booking"])) {
     </div>
     <!-- Akhir Konten -->
     <!-- Footer -->
-    <footer class="footer pt-2 py-2 text-center" style="background-color: #89B5F2;">
+    <footer class="footer pt-2 py-2 text-center" id="settingbackground">
         <p>&copy;2021 Copyright <a href="" data-bs-toggle="modal"
             data-bs-target="#author">Fakhri_1202194336</a></p>
     </footer>

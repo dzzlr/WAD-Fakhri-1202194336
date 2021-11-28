@@ -7,10 +7,7 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-$email = $_SESSION["login"];
-$row = query("SELECT * FROM users WHERE email = '$email'")[0];
-
-$user_id = $row["id"];
+$user_id = $_SESSION["id"];
 $result = mysqli_query($conn, "SELECT * FROM bookings WHERE user_id = '$user_id'");
 $row_cnt = $result->num_rows;
 
@@ -28,11 +25,22 @@ $row_cnt = $result->num_rows;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous">
     </script>
+    <style type="text/css">
+        #settingbackground {                
+            background-color: <?php 
+                if (!empty($_COOKIE['warnabg'])){
+                    echo "#".$_COOKIE['warnabg'];
+                } else {
+                    echo "#89B5F2";
+                }
+            ?>;
+        }
+    </style>
     <title>Bookings</title>
 </head>
 <body style="background-color: #FEF8E6;">
     <!-- Navbar -->
-    <nav class="px-5 navbar navbar-light fixed-top" style="background-color: #89B5F2;">
+    <nav class="px-5 navbar navbar-light fixed-top" id="settingbackground">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="Index.php">EAD Travel</a>
             <div class="my-auto d-flex">
@@ -41,10 +49,10 @@ $row_cnt = $result->num_rows;
                 </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-dark" role="button" id="navbarDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false"><?= $row["nama"]?>
+                        data-bs-toggle="dropdown" aria-expanded="false"><?= $_SESSION["nama"]?>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a type="submit" class="dropdown-item" href="Profile.php?id=<?= $row["id"] ?>">Profile</a></li>
+                        <li><a type="submit" class="dropdown-item" href="Profile.php?id=<?= $_SESSION["id"] ?>">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="Logout.php">Logout</a></li>
                     </ul>
@@ -53,6 +61,12 @@ $row_cnt = $result->num_rows;
         </div>
     </nav>
     <!-- Akhir Navbar -->
+    <?php if (isset($_SESSION['booking_delete'])):?>
+        <div class="mt-5 alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['booking_delete']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['booking_delete']); endif;?>
     <!-- Konten -->
     <div class="d-flex justify-content-center" style="height:100%;">
         <div class="col-10 py-3 px-3 mb-5 shadow bg-white rounded" style="margin-top: 5rem;">
@@ -75,7 +89,7 @@ $row_cnt = $result->num_rows;
                         <td><?=$row2["tanggal"]?></td>
                         <td>Rp. <?=$row2["harga"]?></td>
                         <td><a type="button" class="btn btn-danger btn-sm" href="Delete.php?id=<?= $row2["id"] ?>" 
-                            onclick="return confirm('Yakin?');">Hapus</a></td>
+                                onclick="return confirm('Yakin?');">Hapus</a></td>
                     </tr>
                     <?php $num += 1;?>
                 <?php endfor;?>
@@ -89,7 +103,7 @@ $row_cnt = $result->num_rows;
     </div>
     <!-- Akhir Konten -->
     <!-- Footer -->
-    <footer class="footer pt-2 py-2 text-center fixed-bottom" style="background-color: #89B5F2;">
+    <footer class="footer pt-2 py-2 text-center fixed-bottom" id="settingbackground">
         <p>&copy;2021 Copyright <a href="" data-bs-toggle="modal"
             data-bs-target="#author">Fakhri_1202194336</a></p>
     </footer>
