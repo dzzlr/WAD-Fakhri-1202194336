@@ -33,8 +33,8 @@ if (isset($_POST["savechange"])) {
     <style type="text/css">
         #settingbackground {                
             background-color: <?php 
-                if (!empty($_COOKIE['warnabg'])){
-                    echo "#".$_COOKIE['warnabg'];
+                if (!empty($_COOKIE['warnabackground'])){
+                    echo "#".$_COOKIE['warnabackground'];
                 } else {
                     echo "#89B5F2";
                 }
@@ -110,13 +110,12 @@ if (isset($_POST["savechange"])) {
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="warnabg" class="col-sm-2 col-form-label">Warna Navbar</label>
+                <label for="warnabackground" class="col-sm-2 col-form-label">Warna Navbar</label>
                 <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example" name="warnabg">
+                    <select class="form-select" aria-label="Default select example" name="warnabackground">
                         <option value="89B5F2">Blue Ocean</option>
                         <option value="D443E2">Lavender</option>
                     </select>
-                    <!-- <input type="text" class="form-control" id="warnanavbar" name="warnanavbar" value=""> -->
                 </div>
             </div>
             <div class="d-grid gap-2 col-2 d-md-block mx-auto">

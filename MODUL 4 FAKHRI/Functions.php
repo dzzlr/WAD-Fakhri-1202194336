@@ -61,7 +61,7 @@ function updateData($data) {
     $nohp = strtolower(stripslashes($data["nohp"]));
     $password = mysqli_real_escape_string($conn, $data["password"]);
     $password2 = mysqli_real_escape_string($conn, $data["password2"]);
-    $warnabg = $data['warnabg'];
+    $warnabackground = $data['warnabackground'];
 
     if ($password !== $password2) {
         echo "<script>
@@ -75,7 +75,7 @@ function updateData($data) {
     $query = "UPDATE users SET nama = '$nama', no_hp = '$nohp', password = '$password' WHERE id = '$id'";
     mysqli_query($conn, $query);
 
-    setcookie('warnabg', $warnabg, strtotime('+3 days'), '/');
+    setcookie('warnabackground', $warnabackground, strtotime('+3 days'), '/');
     $_SESSION['update_success'] = 'Berhasil update profile';
 
     return mysqli_affected_rows($conn);
@@ -111,6 +111,11 @@ function deleteData($id) {
     $_SESSION['booking_delete'] = "Tiket berhasil dihapus";
 
     return mysqli_affected_rows($conn);
+}
+
+function rupiah($angka){
+	$hasil_rupiah = "Rp. " . number_format($angka,0,',','.');
+	return $hasil_rupiah;
 }
 
 ?>

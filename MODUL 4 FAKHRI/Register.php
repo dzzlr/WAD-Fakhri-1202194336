@@ -34,8 +34,8 @@ if (isset($_POST["register"])) {
     <style type="text/css">
         #settingbackground {                
             background-color: <?php 
-                if (!empty($_COOKIE['warnabg'])){
-                    echo "#".$_COOKIE['warnabg'];
+                if (!empty($_COOKIE['warnabackground'])){
+                    echo "#".$_COOKIE['warnabackground'];
                 } else {
                     echo "#89B5F2";
                 }

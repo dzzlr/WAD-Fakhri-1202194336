@@ -28,8 +28,8 @@ $row_cnt = $result->num_rows;
     <style type="text/css">
         #settingbackground {                
             background-color: <?php 
-                if (!empty($_COOKIE['warnabg'])){
-                    echo "#".$_COOKIE['warnabg'];
+                if (!empty($_COOKIE['warnabackground'])){
+                    echo "#".$_COOKIE['warnabackground'];
                 } else {
                     echo "#89B5F2";
                 }
@@ -87,7 +87,7 @@ $row_cnt = $result->num_rows;
                         <td><?=$row2["nama_tempat"]?></td>
                         <td><?=$row2["lokasi"]?></td>
                         <td><?=$row2["tanggal"]?></td>
-                        <td>Rp. <?=$row2["harga"]?></td>
+                        <td><?=rupiah($row2["harga"]);?></td>
                         <td><a type="button" class="btn btn-danger btn-sm" href="Delete.php?id=<?= $row2["id"] ?>" 
                                 onclick="return confirm('Yakin?');">Hapus</a></td>
                     </tr>
@@ -96,7 +96,7 @@ $row_cnt = $result->num_rows;
                 <tr>
                     <?php $sum = query("SELECT SUM(harga) as total FROM bookings WHERE user_id = '$user_id'")[0];?>
                     <td colspan="4" class="fw-bold">Total</td>
-                    <td colspan="2" class="fw-bold">Rp. <?=$sum["total"]?></td>
+                    <td colspan="2" class="fw-bold"><?=rupiah($sum["total"])?></td>
                 </tr>
             </table>
         </div>

@@ -12,7 +12,6 @@ $wisata = array(
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem omnis eos quis tempore, facilis adipisci aperiam! Dolore, officia expedita. Rem, incidunt voluptatibus? Et facere doloribus eum quisquam maxime cum aliquid."
     ),
     "harga_tempat" => array(7000000, 2000000, 5000000),
-    "harga_tempat_str" => array("7.000.000", "2.000.000", "5.000.000"),
 );
 
 if (isset($_POST["booking"])) {
@@ -42,8 +41,8 @@ if (isset($_POST["booking"])) {
     <style type="text/css">
         #settingbackground {                
             background-color: <?php 
-                if (!empty($_COOKIE['warnabg'])){
-                    echo "#".$_COOKIE['warnabg'];
+                if (!empty($_COOKIE['warnabackground'])){
+                    echo "#".$_COOKIE['warnabackground'];
                 } else {
                     echo "#89B5F2";
                 }
@@ -109,9 +108,8 @@ if (isset($_POST["booking"])) {
                     <h5 class="card-title"><?= $wisata["nama_tempat"][$i] ?></h5>
                     <p class="card-text"><?= $wisata["deskripsi_tempat"][$i] ?></p>
                     <hr>
-                    <p class="card-text fw-bold">Rp. <?= $wisata["harga_tempat_str"][$i] ?></p>
+                    <p class="card-text fw-bold"><?=rupiah($wisata["harga_tempat"][$i])?></p>
                 </div>
-                <input type="hidden" name="nama_tempat" value="<?= $wisata["nama_tempat"][$i]?>">
                 <div class="card-footer d-grid gap-2">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
                         data-bs-target="#pesantiket<?=$wisata["id"][$i]?>" name="booking">Pesan Tiket</button>
@@ -125,7 +123,7 @@ if (isset($_POST["booking"])) {
                             <div class="modal-body">
                                 <input type="hidden" name="id" value="<?= $row['id']?>">
                                 <input type="hidden" name="namatempat" value="<?= $wisata["nama_tempat"][$i]?>">
-                                <input type="hidden" name="hargatempat" value="<?= $wisata["harga_tempat_str"][$i]?>">
+                                <input type="hidden" name="hargatempat" value="<?= $wisata["harga_tempat"][$i]?>">
                                 <div class="form-group">
                                     <label for="date" class="form-label">Tanggal Perjalanan</label>
                                     <input type="date" class="form-control" id="date" name="date">
