@@ -41,8 +41,8 @@ if (isset($_POST["booking"])) {
     <style type="text/css">
         #settingbackground {                
             background-color: <?php 
-                if (!empty($_COOKIE['warnabackground'])){
-                    echo "#".$_COOKIE['warnabackground'];
+                if (!empty()){
+                    echo "#FFFFFF";
                 } else {
                     echo "#89B5F2";
                 }
