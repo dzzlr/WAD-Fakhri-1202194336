@@ -15,7 +15,7 @@ class VaccineController extends Controller
         ]);
     }
 
-    public function add() {
+    public function create() {
         $data_vaccine = new Vaccine;
         return view('vaccine.add', [
             "title" => "Vaccine",
@@ -23,14 +23,31 @@ class VaccineController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function save(Request $request) {
         if ($files = $request->file('vaccineImg')) {
             $destinationPath = 'img/vaccines/';  
-            $imageSource = rand(1000, 20000) . "." . $files->getClientOriginalExtension();
+            $imageSource = rand(1000, 50000) . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $imageSource);
         }
 
         $data_vaccine = new Vaccine;
+        $data_vaccine->name = $request->vaccineName;
+        $data_vaccine->price = $request->vaccinePrice;
+        $data_vaccine->description = $request->vaccineDesc;
+        $data_vaccine->image = $imageSource;
+        $data_vaccine->save();
+
+        return redirect("vaccine");
+    }
+
+    public function update(Request $request, $id) {
+        if ($files = $request->file('vaccineImg')) {
+            $destinationPath = 'img/vaccines/';  
+            $imageSource = rand(1000, 50000) . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $imageSource);
+        }
+
+        $data_vaccine = Vaccine::find($id);
         $data_vaccine->name = $request->vaccineName;
         $data_vaccine->price = $request->vaccinePrice;
         $data_vaccine->description = $request->vaccineDesc;
@@ -46,23 +63,6 @@ class VaccineController extends Controller
             "title" => "Vaccine",
             "data_vaccine" => $data_vaccine
         ]);
-    }
-
-    public function update(Request $request, $id) {
-        if ($files = $request->file('vaccineImg')) {
-            $destinationPath = 'img/vaccines/';  
-            $imageSource = rand(1000, 20000) . "." . $files->getClientOriginalExtension();
-            $files->move($destinationPath, $imageSource);
-        }
-
-        $data_vaccine = Vaccine::find($id);
-        $data_vaccine->name = $request->vaccineName;
-        $data_vaccine->price = $request->vaccinePrice;
-        $data_vaccine->description = $request->vaccineDesc;
-        $data_vaccine->image = $imageSource;
-        $data_vaccine->save();
-
-        return redirect("vaccine");
     }
 
     public function delete($id) {

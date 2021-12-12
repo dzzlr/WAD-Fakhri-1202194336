@@ -24,7 +24,7 @@ class PatientController extends Controller
         ]);
     }
 
-    public function register($id) {
+    public function create($id) {
         $data_patient = Vaccine::find($id);
         return view('patient.register', [
             "title" => "Patient",
@@ -32,14 +32,33 @@ class PatientController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function save(Request $request) {
         if ($files = $request->file('patientKTP')) {
             $destinationPath = 'img/ktp/';  
-            $imageSource = rand(1000, 20000) . "." . $files->getClientOriginalExtension();
+            $imageSource = rand(1000, 50000) . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $imageSource);
         }
 
         $data_patient = new Patient;
+        $data_patient->vaccine_id = $request->vaccineID;
+        $data_patient->name = $request->patientName;
+        $data_patient->alamat = $request->patientAddr;
+        $data_patient->nik = $request->patientNIK;
+        $data_patient->image_ktp = $imageSource;
+        $data_patient->no_hp = $request->patientPhoNum;
+        $data_patient->save();
+
+        return redirect("patient");
+    }
+
+    public function update(Request $request, $id) {
+        if ($files = $request->file('patientKTP')) {
+            $destinationPath = 'img/ktp/';  
+            $imageSource = rand(1000, 50000) . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $imageSource);
+        }
+
+        $data_patient = Patient::find($id);
         $data_patient->vaccine_id = $request->vaccineID;
         $data_patient->name = $request->patientName;
         $data_patient->alamat = $request->patientAddr;
@@ -58,26 +77,7 @@ class PatientController extends Controller
             "data_patient" => $data_patient
         ]);
     }
-
-    public function update(Request $request, $id) {
-        if ($files = $request->file('patientKTP')) {
-            $destinationPath = 'img/ktp/';  
-            $imageSource = rand(1000, 20000) . "." . $files->getClientOriginalExtension();
-            $files->move($destinationPath, $imageSource);
-        }
-
-        $data_patient = Patient::find($id);
-        $data_patient->vaccine_id = $request->vaccineID;
-        $data_patient->name = $request->patientName;
-        $data_patient->alamat = $request->patientAddr;
-        $data_patient->nik = $request->patientNIK;
-        $data_patient->image_ktp = $imageSource;
-        $data_patient->no_hp = $request->patientPhoNum;
-        $data_patient->save();
-
-        return redirect("patient");
-    }
-
+    
     public function delete($id) {
         $data_patient = Patient::find($id);
         $data_patient->delete();
