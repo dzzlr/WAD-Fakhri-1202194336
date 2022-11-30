@@ -12,9 +12,9 @@
         <!-- Script PHP -->
         <?php
             $gedung = array (
-                'array("Nusantara Hall", 2000, 5000, "Free Parking", "Full AC", "Cleaning Service", "Covid-19 Health Protocol")
-                array("Garuda Hall", 1000, 2000, "Free Parking", "Full AC", "No Cleaning Service", "Covid-19 Health Protocol")
-                array("Gedung Serba Guna", 500, 500, "No Free Parking", "No Full AC", "No Cleaning Service", "Covid-19 Health Protocol")'
+                array("Nusantara Hall", 2000, 5000, "Free Parking", "Full AC", "Cleaning Service", "Covid-19 Health Protocol"),
+                array("Garuda Hall", 1000, 2000, "Free Parking", "Full AC", "No Cleaning Service", "Covid-19 Health Protocol"),
+                array("Gedung Serba Guna", 500, 500, "No Free Parking", "No Full AC", "No Cleaning Service", "Covid-19 Health Protocol")
             );
             $gedungImg = array(
                 "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,pg_1,q_80,w_680/v1/assets/IMG_0836_l7p7uz/ice-indonesia-convention-exhibition_wedding-at-ice-bsd1487580049_10.jpg",

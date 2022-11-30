@@ -4,6 +4,7 @@
     <h4 class="text-center">Edit Vaccine</h4>
     <form action="/vaccine/{{ $data_vaccine->id }}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_method" value="PATCH">
+        @csrf
         <div class="mb-3">
             <label for="vaccineName" class="form-label">Vaccine Name</label>
             <input type="text" class="form-control" name="vaccineName" id="vaccineName" value="{{ $data_vaccine->name }}">

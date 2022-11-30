@@ -30,7 +30,7 @@
 
                 $bookingNumber = rand();
                 $checkin = date('Y-m-d H:i:s', strtotime("$date $time"));
-                $checkout = "apa hayo";
+                $checkout = date('Y-m-d H:i:s', strtotime($duration . " " . "hours", strtotime($checkin)));
                 $services = $_POST["services"];
 
                 $servicesPriceTotal = 0;
